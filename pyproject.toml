@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "django-tutorial"
+version = "0.1.0"
+description = ""
+authors = ["Andreas Atle <atle.andreas@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+django = "^4.2.7"
+python-dotenv = "^1.0.0"
+mysqlclient = "^2.2.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
