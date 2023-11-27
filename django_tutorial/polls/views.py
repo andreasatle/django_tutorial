@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from django.http import HttpResponse
 
-# Create your views here.
+def index(request):
+    """
+    This view function returns a HttpResponse with a greeting message.
+    """
+    return HttpResponse("Hello, world. You're at the polls index.")

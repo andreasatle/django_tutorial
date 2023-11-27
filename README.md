@@ -34,3 +34,34 @@ In the project root-directory, we can create a new app:
 ```bash
 python manage.py startapp polls
 ```
+
+# Create a first url and view in the polls app
+Create a file `polls/urls.py`
+```python
+from django.urls import path
+
+from . import views
+
+urlpatterns = [
+    path("", views.index, name="index"),
+]
+```
+
+and modify `polls/views.py` to
+```python
+from django.http import HttpResponse
+
+def index(request):
+    return HttpResponse("Hello, world. You're at the polls index.")
+```
+
+In Django, the path() function is used in URL configurations to map a specific URL pattern to a corresponding view function.
+
+In the code snippet you provided:
+
+,
+"" is the URL pattern. In this case, it's an empty string, which means this pattern will match the root URL of your website (e.g., http://www.yourwebsite.com/).
+
+views.index is the view function that will be called when this URL pattern is matched. When a user visits the root URL of your website, Django will call the index function from your views module.
+
+name="index" is an optional parameter that assigns a name to this URL pattern. This name can be used to refer to this specific URL pattern elsewhere in your code, such as in templates. This is particularly useful when you want to create a hyperlink to this URL.
