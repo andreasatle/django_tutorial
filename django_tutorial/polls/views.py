@@ -1,10 +1,16 @@
 from django.http import HttpResponse
 
+from .models import Question, Choice
+
 def index(request):
     """
-    This view function returns a HttpResponse with a greeting message.
+    View function for the index page.
+
+    This function retrieves the latest three questions from the database
+    and returns a comma-separated string of their question texts.
     """
-    return HttpResponse("Hello, world. You're at the polls index.")
+    response = ", ".join([q.question_text for q in Question.objects.order_by("-created_at")[:3]])
+    return HttpResponse(response)
 
 
 def detail(request, question_id):
