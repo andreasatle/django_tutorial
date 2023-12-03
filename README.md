@@ -220,3 +220,22 @@ We can create a new superuser with the command:
 ```bash
 python -m manage createsuperuser
 ```
+
+In order to get reasonable representation of the data, we can modify `polls/admin.py`:
+```python
+from django.contrib import admin
+from .models import Question, Choice
+
+class ChoiceInline(admin.TabularInline):
+    model = Choice
+
+class QuestionAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (None, {'fields': ['question_text']}),
+    ]
+    inlines = [ChoiceInline]
+
+admin.site.register(Question, QuestionAdmin)
+```
+
+I don't know the details of how to make things work in a controlled manner. I can't get the creation and update times to show up. They were implemented in an abstract class. It will take some playing around to fully understand the admin stuff.
