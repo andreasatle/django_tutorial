@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.template import loader
+from django.shortcuts import render
 
 from .models import Question, Choice
 
@@ -9,11 +9,10 @@ def index(request):
 
     This view function displays the three most recently published questions.
     """
-    template = loader.get_template("polls/index.html")
     context = {
         "questions": Question.objects.order_by("-created_at")[:3],
     }
-    return HttpResponse(template.render(context, request))
+    return render(request, 'polls/index.html', context)
 
 
 def detail(request, question_id):
