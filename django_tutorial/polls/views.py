@@ -9,7 +9,6 @@ def index(request):
 
     This view function displays the three most recently published questions.
     """
-
     return render(request, 'polls/index.html', {
         "questions": Question.objects.order_by("-created_at")[:3],
     })
@@ -19,6 +18,9 @@ def detail(request, question_id):
     """
     View function for displaying the details of a specific question.
     """
+    return render(request, 'polls/detail.html', {
+        "question": Question.objects.get(pk=question_id),
+    })
     return HttpResponse(f"You're looking at question {question_id}.")
 
 
