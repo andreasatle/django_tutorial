@@ -239,3 +239,20 @@ admin.site.register(Question, QuestionAdmin)
 ```
 
 I don't know the details of how to make things work in a controlled manner. I can't get the creation and update times to show up. They were implemented in an abstract class. It will take some playing around to fully understand the admin stuff.
+
+# Template namespacing
+Now we might be able to get away with putting our templates directly in polls/templates (rather than creating another polls subdirectory), but it would actually be a bad idea. Django will choose the first template it finds whose name matches, and if you had a template with the same name in a different application, Django would be unable to distinguish between them. We need to be able to point Django at the right one, and the best way to ensure this is by namespacing them. That is, by putting those templates inside another directory named for the application itself.
+
+# Use a template
+In `polls/template/polls/index.html` write a template:
+```python
+{% if questions %}
+<ul>
+    {% for question in questions %}
+    <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No polls are available.</p>
+{% endif %}
+```

@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.template import loader
 
 from .models import Question, Choice
 
@@ -6,11 +7,13 @@ def index(request):
     """
     View function for the index page.
 
-    This function retrieves the latest three questions from the database
-    and returns a comma-separated string of their question texts.
+    This view function displays the three most recently published questions.
     """
-    response = ", ".join([q.question_text for q in Question.objects.order_by("-created_at")[:3]])
-    return HttpResponse(response)
+    template = loader.get_template("polls/index.html")
+    context = {
+        "questions": Question.objects.order_by("-created_at")[:3],
+    }
+    return HttpResponse(template.render(context, request))
 
 
 def detail(request, question_id):
