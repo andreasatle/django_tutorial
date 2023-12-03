@@ -9,10 +9,10 @@ def index(request):
 
     This view function displays the three most recently published questions.
     """
-    context = {
+
+    return render(request, 'polls/index.html', {
         "questions": Question.objects.order_by("-created_at")[:3],
-    }
-    return render(request, 'polls/index.html', context)
+    })
 
 
 def detail(request, question_id):
