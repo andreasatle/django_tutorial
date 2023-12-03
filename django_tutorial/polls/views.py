@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from .models import Question, Choice
 
@@ -19,9 +19,8 @@ def detail(request, question_id):
     View function for displaying the details of a specific question.
     """
     return render(request, 'polls/detail.html', {
-        "question": Question.objects.get(pk=question_id),
+        "question": get_object_or_404(Question, pk=question_id),
     })
-    return HttpResponse(f"You're looking at question {question_id}.")
 
 
 def results(request, question_id):
