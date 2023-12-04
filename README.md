@@ -256,3 +256,60 @@ In `polls/template/polls/index.html` write a template:
 <p>No polls are available.</p>
 {% endif %}
 ```
+
+# Shortcuts with 404
+In order to detect 404-errors, we can use
+```python
+from django.shortcuts import get_object_or_404
+def detail(request, question_id):
+    return render(request, 'polls/detail.html', {
+        "question": get_object_or_404(Question, pk=question_id),
+    })
+```
+
+The `get_object_or_404` will raise an `Http404` exception if the object is not retrieved. This will show a default 404-page.
+
+# Custom 404-page
+After messing around with custom made 404-pages for about half a day without success, I finally found a trivial solution.
+All modifications are in the `settings.py`.
+```python
+...
+# Remove debug-mode
+DEBUG = False
+# Set allowed hosts, a must when not debug.
+ALLOWED_HOSTS = ['*']
+# Set the default template directory, where we will put a `404.html`.
+import os
+BASE_DIR = Path(__file__).resolve().parent.parent # Already there...
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [os.path.join(BASE_DIR, 'templates')],
+        ...
+    }
+]
+```
+
+Finally we just need to provide `templates/404.html`:
+```python
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 ERROR</title>
+</head>
+
+<body>
+    <h1>404 ERROR</h1>
+    {% if request_path %}
+    <h2>Page '{{request_path}}' not found!</h2>
+    {% endif %}
+    {% if exception %}
+    <h3>{{exception}}</h3>
+    {% endif %}
+</body>
+
+</html>
+```
