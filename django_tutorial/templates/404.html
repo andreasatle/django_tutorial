@@ -1,1 +1,20 @@
-404
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 ERROR</title>
+</head>
+
+<body>
+    <h1>404 ERROR</h1>
+    {% if request_path %}
+    <h2>Page '{{request_path}}' not found!</h2>
+    {% endif %}
+    {% if exception %}
+    <h3>{{exception}}</h3>
+    {% endif %}
+</body>
+
+</html>
