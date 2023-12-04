@@ -1,6 +1,24 @@
-<h1>{{ question.question_text }}</h1>
-<ul>
-    {% for choice in question.choice_set.all %}
-    <li>{{ choice.choice_text }}</li>
-    {% endfor %}
-</ul>
+<!-- Form for voting -->
+<form action="{% url 'polls:vote' question.id %}" method="post">
+    <!-- This code block includes the {% csrf_token %} template tag, which is used to add a
+        Cross-Site Request Forgery (CSRF) token to the form. The CSRF token helps protect against
+        CSRF attacks by ensuring that the form submission originated from the same site. -->
+    {% csrf_token %}
+    <!-- This code represents a fieldset element in the HTML template for the detail view of a poll. -->
+    <fieldset>
+        <!-- The <legend> HTML element represents a caption for the content of its parent <fieldset>. -->
+        <legend>
+            <h1>{{ question.question_text }}</h1>
+        </legend>
+        <!-- The if template tag checks for a variable called error_message and displays it if it exists. -->
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        <!-- This code block is a Django template for rendering the choices associated with a question. -->
+        {% for choice in question.choice_set.all %}
+        <!-- This code snippet represents an HTML input element of type "radio" used for selecting a choice in a poll. -->
+        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+        <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+        {% endfor %}
+    </fieldset>
+    <!-- This code represents a submit button for voting. -->
+    <input type="submit" value="Vote">
+</form>
