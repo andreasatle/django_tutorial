@@ -313,3 +313,35 @@ Finally we just need to provide `templates/404.html`:
 
 </html>
 ```
+
+# Remove hardcoded URLs in templates
+In the `polls/templates/polls/index.html` we have a hardcoded url:
+```python
+<li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>
+```
+
+We can use a *template tag* to softcode it instead:
+```python
+<li><a href="{% url 'detail' question.id %}">{{ question.question_text }}</a></li>
+```
+
+In the `polls.url` module, we have named the detail view:
+```python
+path("<int:question_id>/", views.detail, name="detail"),
+```
+
+Now if you want to change the URL for the `detail` view, there is only one place to change:
+```python
+path("new_url/<int:question_id>/", views.detail, name="detail"),
+```
+
+Since the template is using the name of the path, rather than the URL directly, it stays unchanged.
+
+# Namespacing URL names
+When we have different apps in a project that has the same path-names, we need a way to distinguish those. This is done by namespacing, by setting `polls.url.app_name = 'polls'`
+
+The template has to change to using the introduced namespace:
+```python
+<li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+```
+
