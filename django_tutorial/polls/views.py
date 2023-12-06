@@ -1,8 +1,33 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import render, get_object_or_404
+from django.views import generic
 
 from .models import Question, Choice
+
+class IndexView(generic.ListView):
+    """
+    A view that displays a list of the three most recently published questions.
+    """
+    template_name = "polls/index.html"
+    context_object_name = "questions"
+
+    def queryset(self):
+        return Question.objects.order_by("-created_at")
+
+    def get_queryset(self):
+        """
+        Return the three most recently published questions.
+        """
+        return self.queryset()[:3]
+
+class DetailView(generic.DetailView):
+    model = Question
+    template_name = "polls/detail.html"
+
+class ResultsView(generic.DetailView):
+    model = Question
+    template_name = "polls/results.html"
 
 def index(request):
     """
@@ -10,6 +35,7 @@ def index(request):
 
     This view function displays the three most recently published questions.
     """
+    paginate_by = 2
     return render(request, 'polls/index.html', {
         "questions": Question.objects.order_by("-created_at")[:3],
     })
