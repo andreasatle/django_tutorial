@@ -1,0 +1,32 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'polls/style.css' %}">
+    <title>{% block title %}Polls{% endblock %}</title>
+</head>
+
+<body>
+    <header>
+        <!-- Header block -->
+        {% block header %}<p>Header</p>{% endblock %}
+    </header>
+
+    <main>
+        <!-- Content block -->
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <!-- Footer block -->
+        {% block footer %}
+        <a href="{% url 'polls:index' %}">Back to questions</a>
+        {% endblock %}
+    </footer>
+</body>
+
+</html>

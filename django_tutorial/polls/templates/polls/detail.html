@@ -1,3 +1,7 @@
+{% extends "polls/base.html" %}
+{% block title %}Detail{% endblock %}
+{% block header %}<h1>Answers to Question</h1>{% endblock %}
+{% block content %}
 <!-- Form for voting -->
 <form action="{% url 'polls:vote' question.id %}" method="post">
     <!-- This code block includes the {% csrf_token %} template tag, which is used to add a
@@ -22,3 +26,8 @@
     <!-- This code represents a submit button for voting. -->
     <input type="submit" value="Vote">
 </form>
+{% endblock %}
+
+{% block footer %}
+<a href="{% url 'polls:index' %}">Back to questions</a>
+{% endblock %}

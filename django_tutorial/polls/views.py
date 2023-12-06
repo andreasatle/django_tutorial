@@ -2,6 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
+from django.utils import timezone
 
 from .models import Question, Choice
 
@@ -12,14 +13,11 @@ class IndexView(generic.ListView):
     template_name = "polls/index.html"
     context_object_name = "questions"
 
-    def queryset(self):
-        return Question.objects.order_by("-created_at")
-
     def get_queryset(self):
         """
         Return the three most recently published questions.
         """
-        return self.queryset()[:3]
+        return Question.objects.filter(created_at__lte=timezone.now()).order_by("-created_at")[:3]
 
 class DetailView(generic.DetailView):
     model = Question
