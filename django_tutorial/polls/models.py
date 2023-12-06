@@ -15,7 +15,8 @@ class Question(WithTimestamp):
     question_text = models.CharField(max_length=200)
 
     def was_published_recently(self):
-        return self.created_at >= timezone.now() - datetime.timedelta(days=1)
+        now = timezone.now()
+        return now - datetime.timedelta(days=1) <= self.created_at <= now
 
 class Choice(WithTimestamp):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
