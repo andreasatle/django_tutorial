@@ -1,7 +1,7 @@
 import datetime
 from django.utils import timezone
 from django.db import models
-
+from django.contrib import admin
 # Create your models here.
 
 class WithTimestamp(models.Model):
@@ -14,6 +14,11 @@ class WithTimestamp(models.Model):
 class Question(WithTimestamp):
     question_text = models.CharField(max_length=200)
 
+    @admin.display(
+        boolean=True,
+        ordering="created_at",
+        description="Published recently?",
+    )
     def was_published_recently(self):
         now = timezone.now()
         return now - datetime.timedelta(days=1) <= self.created_at <= now

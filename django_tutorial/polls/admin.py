@@ -6,11 +6,10 @@ class ChoiceInline(admin.TabularInline):
     readonly_fields = ['created_at', 'updated_at']
 
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ('question_text', 'created_at', 'updated_at')
+    list_display = ('question_text', 'created_at', 'updated_at', 'was_published_recently')
     fieldsets = [
         (None, {'fields': ['question_text']}),
     ]
     inlines = [ChoiceInline]
-    readonly_fields = ['created_at', 'updated_at']
 
 admin.site.register(Question, QuestionAdmin)
